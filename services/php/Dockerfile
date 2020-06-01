@@ -13,6 +13,7 @@ RUN yum install -y php-cli php-common php-devel php-fpm php-gd php-mysqlnd php-m
 RUN yum install -y mysql
 RUN yum install -y git
 RUN yum install -y sudo
+RUN yum install -y unzip
 
 #Composer install
 COPY --from=composer /usr/bin/composer /usr/bin/composer
@@ -25,10 +26,11 @@ ENV PATH $PATH:/composer/vendor/bin
 
 WORKDIR /usr/share/nginx/dawn
 
-#RUN composer require "laravel/installer"
-#RUN composer require "laravel/cashier":"~7.0"
-#RUN composer require "stripe/stripe-php":"^5.0"
-#RUN composer require "doctrine/dbal"
+RUN composer require "laravel/installer"
+RUN composer require "laravel/cashier":"~7.0"
+RUN composer require "stripe/stripe-php":"^5.0"
+RUN composer require "doctrine/dbal"
+RUN composer install
 
 EXPOSE 9000
 ENTRYPOINT /usr/sbin/php-fpm -F
